@@ -13,21 +13,6 @@ console.log("JWT Secret:", process.env.JWT_SECRET); // Add this in your server s
 app.use(express.json());
 app.use(cors());
 
-// async function main() {
-//   try {
-//     await mongoose.connect(process.env.mongoDBURL, {
-//       useNewUrlParser: true,
-//       useUnifiedTopology: true,
-//     });
-//     console.log("Database connected");
-//   } catch (error) {
-//     console.error("Database connection failed:", error);
-//     process.exit(1); // Exit the process with failure
-//   }
-// }
-
-// main();
-
 mongoose
   .connect("mongodb://localhost:27017/userDetails", {
     useNewUrlParser: true,
@@ -35,7 +20,7 @@ mongoose
   })
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error("MongoDB connection error:", err));
-// // Routes
+// Routes
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/users", require("./routes/users"));
 app.get("/", (req, res) => {
