@@ -1,0 +1,74 @@
+/* UserList.css */
+
+/* Styling for the User List header */
+h1 {
+  color: #333;
+}
+
+/* Styling for the User Form */
+form {
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+form input[type="text"],
+form input[type="email"],
+form select,
+form button {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+form button[type="submit"],
+.list-group-item button {
+  width: 100%;
+  margin: 5px 0; /* Equal margin top and bottom, 0 margin left and right */
+  padding: 8px;
+  font-size: 16px; /* Same font size as input fields */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+form button[type="submit"] {
+  background-color: #007bff;
+  color: #fff;
+}
+
+form button[type="submit"]:hover,
+.list-group-item button:hover {
+  background-color: #0056b3;
+}
+
+/* Styling for the User List */
+.list-group-item {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.list-group-item div {
+  padding: 10px;
+}
+
+@media (max-width: 768px) {
+  /* Adjustments for smaller screens */
+  form {
+    padding: 15px;
+  }
+
+  form input[type="text"],
+  form input[type="email"],
+  form select,
+  form button,
+  .list-group-item {
+    font-size: 14px;
+  }
+}
