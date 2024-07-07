@@ -8,7 +8,7 @@ const UserForm = ({ selectedUser, onFormSubmit }) => {
     firstName: "",
     lastName: "",
     email: "",
-    role: "user",
+    role: "User",
     password: "", // Add password field
   });
 
@@ -85,8 +85,8 @@ const UserForm = ({ selectedUser, onFormSubmit }) => {
         onChange={handleChange}
         required
       >
-        <option value="user">User</option>
-        <option value="admin">Admin</option>
+        <option value="User">User</option>
+        <option value="Admin">Admin</option>
       </select>
       <button type="submit">{selectedUser ? "Update" : "Create"}</button>
     </form>
