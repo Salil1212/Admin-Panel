@@ -20,7 +20,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/auth/register", formData);
+      await axios.post("https://admin-panel-server-wheat.vercel.app/api/auth/register", formData);
       setMessage("User registered successfully!");
       navigate("/login");
     } catch (error) {
