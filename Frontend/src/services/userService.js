@@ -2,7 +2,7 @@
 
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/users";
+const API_URL = "https://admin-panel-server-wheat.vercel.app/api/users";
 
 const getAllUsers = (token) => {
   return axios.get(API_URL, {
