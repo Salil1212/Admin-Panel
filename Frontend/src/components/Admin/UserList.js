@@ -24,7 +24,7 @@ const UserList = () => {
       }
     };
     fetchUsers();
-  }, [auth.token, auth.user._id]);
+  }, [auth.token, auth.user.id]);
 
   const handleUserFormSubmit = (updatedUser) => {
     if (selectedUser) {
