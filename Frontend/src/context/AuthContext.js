@@ -1,6 +1,7 @@
+
 import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
-import { jwtDecode } from "jwt-decode"; // Ensure correct import statement
+import jwtDecode from "jwt-decode";
 
 const AuthContext = createContext();
 
@@ -10,7 +11,8 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      setAuth({ token });
+      const decodedToken = jwtDecode(token);
+      setAuth({ token, user: decodedToken });
     }
   }, []);
 
@@ -20,24 +22,25 @@ const AuthProvider = ({ children }) => {
         "https://admin-panel-server-wheat.vercel.app/api/auth/login",
         { email, password }
       );
-      localStorage.setItem("token", response.data.token);
-      setAuth({ token: response.data.token });
+      const token = response.data.token;
+      localStorage.setItem("token", token);
+      const decodedToken = jwtDecode(token);
+      setAuth({ token, user: decodedToken });
     } catch (error) {
       console.error("Login error:", error);
-      throw error; // Rethrow error to handle in calling component
+      throw error;
     }
   };
 
-  const decodeToken = (token) => {
-    return jwtDecode(token); // Decodes the JWT token
+  const logout = () => {
+    localStorage.removeItem("token");
+    setAuth(null);
   };
 
-  const isAdmin = () => {
-    return auth && auth.token && decodeToken(auth.token).role === "Admin";
-  };
+  const isAdmin = () => auth && auth.user && auth.user.role === "Admin";
 
   return (
-    <AuthContext.Provider value={{ auth, login, isAdmin }}>
+    <AuthContext.Provider value={{ auth, login, logout, isAdmin }}>
       {children}
     </AuthContext.Provider>
   );
