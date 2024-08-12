@@ -1,25 +1,30 @@
+
 import React, { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import userService from "../../services/userService";
 import UserForm from "./UserForm";
+import { Spinner } from "react-bootstrap"; // Import Spinner component
 import "./UserList.css"; // Import custom CSS for further styling
 
 const UserList = () => {
   const { auth } = useContext(AuthContext);
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const response = await userService.getAllUsers(auth.token);
-        setUsers(response.data);
+        setUsers(response.data.filter(user => user._id !== auth.user._id)); // Filter out the logged-in admin
       } catch (error) {
         console.error("Error fetching users:", error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchUsers();
-  }, [auth.token]);
+  }, [auth.token, auth.user._id]);
 
   const handleUserFormSubmit = (updatedUser) => {
     if (selectedUser) {
@@ -46,6 +51,16 @@ const UserList = () => {
       console.error("Error deleting user:", error);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center" style={{ height: "300px" }}>
+        <Spinner animation="border" role="status">
+          <span className="sr-only">Loading...</span>
+        </Spinner>
+      </div>
+    );
+  }
 
   return (
     <div className="container-fluid mt-4">
