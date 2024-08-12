@@ -16,7 +16,7 @@ const UserList = () => {
     const fetchUsers = async () => {
       try {
         const response = await userService.getAllUsers(auth.token);
-        setUsers(response.data.filter(user => user._id !== auth.user._id)); // Filter out the logged-in admin
+        setUsers(response.data.filter(user => user._id !== auth.user.id)); // Filter out the logged-in admin
       } catch (error) {
         console.error("Error fetching users:", error);
       } finally {
