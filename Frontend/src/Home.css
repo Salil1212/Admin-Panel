@@ -1,0 +1,45 @@
+/* Home.css */
+
+.home-container {
+    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .home-container h1 {
+    font-family: "Roboto", sans-serif;
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 3rem; /* Ensure space between header and buttons */
+  }
+  
+  .custom-btn {
+    width: 100%;
+    padding: 0.5rem 1rem; /* Adjust padding for smaller buttons */
+    margin: 1rem 0; /* Add top and bottom margin for spacing */
+    font-size: 1rem; /* Smaller font size */
+    border-radius: 0.25rem; /* Slight border radius for rounded corners */
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+  }
+  
+  .btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #4e555b;
+  }
