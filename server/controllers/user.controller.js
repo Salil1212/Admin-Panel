@@ -1,3 +1,4 @@
+const Product = require("../models/Product");
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 exports.getAllUsers = async (req, res) => {
@@ -72,3 +73,38 @@ exports.deleteUser = async (req, res) => {
     res.status(500).json({ message: "Server error", error });
   }
 };
+
+exports.createProduct = async (req,res) => {
+  try {
+    
+    const { productName, price } = req.body;
+    let image_url;
+
+    // Use the local file path if the file is uploaded locally
+    // if (req.file) {
+    //   image_url = `${req.file.path}?v=${Date.now()}`; // `req.file.path` will contain the local file path
+    // }
+    if (req.file) {
+      image_url = `/images/products_images/${req.file.filename}?v=${Date.now()}`; // This URL can be accessed on the frontend
+    }
+    // Check if product exists
+    let existingProduct = await Product.findOne({productName});
+    if(existingProduct){
+      return res
+      .status(400)
+      .json({message:"Product with same name exists"})
+    }
+  const newProduct = new Product({
+    productName,
+    price,
+    image_url
+  })
+  // Save product to database
+  await newProduct.save();
+  res.status(201).json(newProduct)
+  }
+  catch(error){
+    console.log(error)
+res.status(500).json({message: "Server error",error});
+  }
+}

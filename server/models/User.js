@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken")
 
 const UserSchema = new mongoose.Schema(
   {
@@ -24,8 +25,31 @@ const UserSchema = new mongoose.Schema(
       default: "User",
       enum: ["User", "Admin"],
     },
+    mobile:{
+      type: String,
+      required: false,
+      unique: true,
+    },
+    otp: {
+      type: String,
+      required: false,
+    },
+    otpExpiresAt: {
+      type: Date,
+      required: false,
+    },
+    mobile_verified: {
+      type: Boolean,
+    },
+
   },
   { timestamps: true }
 );
+UserSchema.methods.generateAuthToken = function () {
+  const payload = { id: this._id, roles: this.roles };
+  return jwt.sign(payload, process.env.JWT_SECRET, {
+    expiresIn: '1h',
+  });
+};
 
 module.exports = mongoose.model("User", UserSchema);
