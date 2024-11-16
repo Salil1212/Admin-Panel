@@ -13,6 +13,7 @@ console.log("JWT Secret:", process.env.JWT_SECRET); // Add this in your server s
 
 // Middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // For URL-encoded requests
 app.use(cors());
 // app.use(cors({
 //   origin: "https://lonely-cackle-9rrvj67vx97fpp5x-3000.app.github.dev", // Frontend URL
@@ -45,10 +46,10 @@ async function main() {
 main();
 // Routes
 app.use('/images', express.static(path.join(__dirname, 'lib/images/products_images')));
-app.use("/api/users", require("./routes/users"));
-app.use("/api/auth", require("./routes/auth"));
-app.use("/api/users", require("./routes/users"));
-app.use("/api/product",require("./routes/product"));
+app.use("/api/users", require("./routes/users.route"));
+app.use("/api/auth", require("./routes/auth.route"));
+app.use("/api/product",require("./routes/product.route"));
+app.use("/api/payment",require("./routes/payment.route"));
 app.get("/", (req, res) => {
   res.json("This is home page");
 });

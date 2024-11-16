@@ -6,7 +6,6 @@ const {productImageUpload} = require("../middlewares/product.middleware");
 const { validate } = require("express-validation");
 
 const router = express.Router();
-router.route("/img-upload").put(productImageUpload,controller.createProduct);
 router.route("/").post(authenticate,isAdmin,validate(createUser),controller.createUser);
 router.route("/").get(authenticate,isAdmin,controller.getAllUsers);
 // router.get("/", getAllUsers);
