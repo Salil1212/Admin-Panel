@@ -9,5 +9,5 @@ router.route("/options").get(controller.paymentOption)
 
 // Route to intialize payment
 router.route("/intialize").post(controller.prePayment)
-
+// http://localhost:3000/api/payment/intialize/pre-payment
 module.exports = router

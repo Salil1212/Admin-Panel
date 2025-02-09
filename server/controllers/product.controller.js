@@ -19,6 +19,7 @@ exports.createProduct = async (req,res) => {
     if (req.file) {
       image_url = `/images/products_images/${req.file.filename}?v=${Date.now()}`; // This URL can be accessed on the frontend
     }
+    console.log(req.file)
     // Check if product exists
     let existingProduct = await Product.findOne({productName});
     if(existingProduct){

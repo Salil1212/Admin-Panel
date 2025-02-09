@@ -12,7 +12,7 @@ const ProductSchema = new mongoose.Schema(
     },
     image_url: {
         type: String,
-        required: true,
+        required: false,
     },
   },
   { timestamps: true }

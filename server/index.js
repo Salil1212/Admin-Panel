@@ -53,5 +53,9 @@ app.use("/api/payment",require("./routes/payment.route"));
 app.get("/", (req, res) => {
   res.json("This is home page");
 });
+app.get('/test-image-path', (req, res) => {
+  const imagePath = path.resolve(__dirname, '../lib/images/products_images/');
+  res.json({ imagePath });
+});
 const PORT = process.env.PORT || 7000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
