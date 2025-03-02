@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const path = require('path');
+const sequelize = require("./db");
 
 
 // Load environment variables from .env file
@@ -44,6 +45,10 @@ async function main() {
 }
 
 main();
+// Sync database
+sequelize.sync({ force: false }) // force: true drops existing tables
+  .then(() => console.log("✅ PostgreSQL Database Synced"))
+  .catch((err) => console.error("❌ Error syncing database:", err));
 // Routes
 app.use('/images', express.static(path.join(__dirname, 'lib/images/products_images')));
 app.use("/api/users", require("./routes/users.route"));
@@ -59,3 +64,4 @@ app.get('/test-image-path', (req, res) => {
 });
 const PORT = process.env.PORT || 7000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+

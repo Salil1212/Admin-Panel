@@ -1,29 +1,24 @@
-const kafka = require("kafka-node");
+const { Kafka } = require("kafkajs");
 
-const client = new kafka.KafkaClient({ kafkaHost: "localhost:9092" });
-const producer = new kafka.Producer(client);
-
-producer.on("ready", () => {
-    console.log("Kafka Producer is ready");
+const kafka = new Kafka({
+  clientId: "payment-service",
+  brokers: ["localhost:9092"],
 });
 
-producer.on("error", (err) => {
-    console.error("Kafka Producer Error:", err);
-});
+const producer = kafka.producer();
 
-const sendPaymentEvent = (message) => {
-    const payloads = [
-        {
-            topic: "payment_success",
-            messages: JSON.stringify(message),
-        },
-    ];
-    console.log(payloads)
-
-    producer.send(payloads, (err, data) => {
-        if (err) console.error("Kafka Send Error:", err);
-        else console.log("Payment Event Sent:", data);
+const sendPaymentEvent = async (message) => {
+  try {
+    await producer.connect();
+    await producer.send({
+      topic: "payment_success",
+      messages: [{ value: JSON.stringify(message) }],
     });
+    console.log("✅ Payment Event Sent:", message);
+    await producer.disconnect();
+  } catch (error) {
+    console.error("❌ Kafka Producer Error:", error);
+  }
 };
 
 module.exports = { sendPaymentEvent };

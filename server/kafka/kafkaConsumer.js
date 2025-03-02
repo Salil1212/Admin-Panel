@@ -1,21 +1,24 @@
-const kafka = require("kafka-node");
+const { Kafka } = require("kafkajs");
 
-const client = new kafka.KafkaClient({ kafkaHost: "localhost:9092" });
-const consumer = new kafka.Consumer(
-    client,
-    [{ topic: "payment_success", partition: 0 }],
-    { autoCommit: true }
-);
-
-consumer.on("message", async (message) => {
-    const paymentData = JSON.parse(message.value);
-    console.log("Received Payment Event:", paymentData);
-
-    // Further actions (e.g., update database, send email, trigger notifications)
+const kafka = new Kafka({
+  clientId: "payment-service",
+  brokers: ["localhost:9092"],
 });
 
-consumer.on("error", (err) => {
-    console.error("Kafka Consumer Error:", err);
-});
+const consumer = kafka.consumer({ groupId: "payment-group" });
 
-console.log("Kafka Consumer Listening...");
+const consumePaymentEvent = async () => {
+  await consumer.connect();
+  await consumer.subscribe({ topic: "payment_success", fromBeginning: true });
+
+  await consumer.run({
+    eachMessage: async ({ topic, partition, message }) => {
+      const paymentData = JSON.parse(message.value.toString());
+      console.log("📩 Received Payment Event:", paymentData);
+
+      // Further actions (e.g., update database, send notifications)
+    },
+  });
+};
+
+consumePaymentEvent();
